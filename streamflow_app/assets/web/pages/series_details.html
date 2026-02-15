@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" name="viewport" />
+    <meta name="theme-color" content="#000000" />
+    <title>StreamFlow - Series Details</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#d41142",
+                        "background-dark": "#000000",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d41142;
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 25px -5px rgba(212, 17, 66, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 50px 10px rgba(212, 17, 66, 0.7);
+            }
+        }
+
+        .animate-pulse-glow {
+            animation: pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .glass-panel {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Touch optimizations */
+        .touch-device .group:hover {
+            transform: none;
+        }
+
+        .touch-device .group:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-black min-h-screen flex flex-col overflow-x-hidden text-white selection:bg-primary selection:text-white font-display">
+
+    <div class="relative flex h-auto min-h-screen w-full flex-col">
+        <div class="layout-container flex h-full grow flex-col">
+            <div class="flex flex-1 justify-center w-full">
+                <div class="layout-content-container flex flex-col w-full max-w-[1400px] flex-1">
+
+                    <!-- Header -->
+                    <header
+                        class="flex items-center justify-between whitespace-nowrap bg-gradient-to-b from-black/80 to-transparent backdrop-blur-[2px] sticky top-0 z-50 px-4 lg:px-10 py-5 transition-all duration-500">
+                        <div class="flex items-center gap-4 md:gap-8">
+                            <button class="text-white p-2 hover:bg-white/10 rounded-full transition-colors"
+                                data-navigate="home">
+                                <span class="material-symbols-outlined text-2xl">arrow_back</span>
+                            </button>
+                            <div class="flex items-center gap-4 text-white">
+                                <div class="size-8 text-primary drop-shadow-[0_0_15px_rgba(212,17,66,0.6)]">
+                                    <svg class="w-full h-full" fill="none" viewBox="0 0 48 48"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z"
+                                            fill="currentColor"></path>
+                                        <path clip-rule="evenodd"
+                                            d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519Z"
+                                            fill="currentColor" fill-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">StreamFlow
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <button class="md:hidden p-2 text-white/60 hover:text-white">
+                                <span class="material-symbols-outlined">search</span>
+                            </button>
+                            <div class="h-10 w-10 rounded-full bg-cover bg-center ring-1 ring-white/10 cursor-pointer"
+                                data-navigate="profile"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA1htAcNwV8W69J6LlTtoErJt3Vpk-ZTGN0YMLoeeHIzjidazPJN92GGbBzYFLxAUAswN6E6cXDgZzDNUd_SSwC_rlXyGNgfAa1jfHlFdhkdFEDXzEPIsJXf3CB3147uzDr3jLHz7Gc9NwHto-wrONxVubqy8bAS1YDT6KphL3n7DjVB3Cqz0sEvsGwr0PV5DuprjHw6bebyjjGfWlyZhmBWskN6CWG7XtDYmSmGhZ0ryZR9RT6ISZG0dHUvoT-zF9LErPUIasGTSk");'>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- Hero Section -->
+                    <div class="pt-0">
+                        <div class="relative flex min-h-[75vh] md:min-h-[85vh] flex-col gap-6 items-start justify-end px-4 pb-20 pt-40 md:px-12 lg:px-20 group w-full"
+                            style="background-image: linear-gradient(to top, #000000 0%, rgba(0, 0, 0, 0.95) 15%, rgba(0, 0, 0, 0.8) 25%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 100%), url('https://lh3.googleusercontent.com/aida-public/AB6AXuCQ-FZJuGGWeeC9_YFwQFruenKLP0Bp3LBSWAcCn2RPCIu5PDVxs2JrCPWcjuPH0s9PiddW23qDH5HyLMxFZ4qI2jqUH8MH4KqdULAIXmayytfYA8N3vHEsIM4peCtGU__JXmsqBu6zff9hf9finOA_7_mykC2UeMsdvzAnWI6Ey2XpkAxAp7HFpPni9k37DSdY04kQxSvYyL7If9PZM5y_Gtb6g7lOCNQYEdU6Iy2HyztoLqFODsC7FBiJI_5SZ-wqZIS3b5CAa6c'); background-size: cover; background-position: center;">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                            <div class="absolute inset-0 bg-black/10 mix-blend-multiply"></div>
+
+                            <div class="relative z-10 flex flex-col gap-4 md:gap-6 text-left max-w-4xl">
+                                <div class="flex flex-wrap items-center gap-2 md:gap-3">
+                                    <span
+                                        class="bg-primary/90 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-[0_0_20px_rgba(212,17,66,0.6)] border border-primary/20">Series</span>
+                                    <span
+                                        class="border border-white/10 bg-black/40 backdrop-blur-md text-white/90 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">4K
+                                        HDR</span>
+                                    <span
+                                        class="border border-white/10 bg-black/40 backdrop-blur-md text-white/90 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest hidden sm:inline">Dolby
+                                        Atmos</span>
+                                </div>
+
+                                <h1
+                                    class="text-white text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-[-0.04em] drop-shadow-2xl bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">
+                                    Chronicles of the Void
+                                </h1>
+
+                                <div
+                                    class="flex flex-wrap items-center gap-x-4 md:gap-x-6 gap-y-2 text-sm md:text-base font-medium text-gray-200">
+                                    <span class="text-primary font-bold drop-shadow-[0_0_12px_rgba(212,17,66,0.8)]">98%
+                                        Match</span>
+                                    <span class="font-light text-white/60">2023</span>
+                                    <span class="font-light text-white/60">4 Seasons</span>
+                                    <span class="hidden sm:inline w-1 h-1 bg-white/40 rounded-full"></span>
+                                    <span class="hidden sm:inline">Sci-Fi Thriller</span>
+                                </div>
+
+                                <p
+                                    class="text-gray-300 text-base md:text-lg lg:text-xl max-w-3xl line-clamp-3 md:line-clamp-none font-normal leading-relaxed drop-shadow-lg tracking-wide">
+                                    In a future where humanity has colonized the edges of the galaxy, a lone detective
+                                    uncovers a conspiracy that threatens the fragile peace between the colonies.
+                                </p>
+
+                                <div class="flex flex-wrap items-center gap-4 md:gap-6 mt-4 md:mt-8">
+                                    <button
+                                        class="group relative flex items-center justify-center gap-2 md:gap-3 h-14 md:h-16 px-8 md:px-10 rounded-full bg-primary hover:bg-[#ff1e53] text-white text-base md:text-lg font-bold transition-all duration-300 shadow-[0_0_30px_-5px_rgba(212,17,66,0.5)] animate-pulse-glow hover:scale-105 active:scale-95 z-10"
+                                        data-play="chronicles-void" data-episode="continue">
+                                        <span
+                                            class="material-symbols-outlined fill-current text-2xl md:text-3xl">play_arrow</span>
+                                        <span class="tracking-wide">Resume</span>
+                                    </button>
+                                    <div class="flex items-center gap-3">
+                                        <button
+                                            class="flex items-center justify-center gap-2 h-12 md:h-14 px-6 md:px-8 rounded-full bg-white/[0.03] hover:bg-white/[0.08] backdrop-blur-xl border border-white/10 hover:border-white/20 text-white text-sm md:text-base font-semibold transition-all duration-300"
+                                            data-add-list="chronicles-void">
+                                            <span class="material-symbols-outlined">add</span>
+                                            <span class="hidden sm:inline">My List</span>
+                                        </button>
+                                        <button
+                                            class="flex items-center justify-center size-12 md:size-14 rounded-full bg-white/[0.03] hover:bg-white/[0.08] backdrop-blur-xl border border-white/10 hover:border-white/20 text-white transition-all duration-300">
+                                            <span class="material-symbols-outlined text-xl">thumb_up</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Episodes Section -->
+                    <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 px-4 lg:px-12 pb-24 -mt-10 relative z-20">
+                        <div class="flex-1">
+                            <div class="flex items-end justify-between mb-6 md:mb-8 border-b border-white/5 pb-4">
+                                <h2 class="text-white tracking-tight text-2xl md:text-3xl font-bold">Episodes</h2>
+                                <div class="relative">
+                                    <select
+                                        class="appearance-none bg-white/[0.03] border border-white/10 rounded-full pl-4 md:pl-5 pr-8 md:pr-10 py-2 text-sm text-white font-medium hover:bg-white/[0.06] focus:border-primary focus:ring-1 focus:ring-primary outline-none cursor-pointer backdrop-blur-sm transition-all">
+                                        <option>Season 1</option>
+                                        <option>Season 2</option>
+                                        <option>Season 3</option>
+                                        <option>Season 4</option>
+                                    </select>
+                                    <span
+                                        class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-white/50 pointer-events-none text-sm">expand_more</span>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col gap-4 md:gap-6">
+                                <!-- Episode 1 -->
+                                <div class="group flex flex-col md:flex-row gap-4 md:gap-6 p-4 md:p-5 rounded-2xl bg-white/[0.01] hover:bg-white/[0.03] border border-white/5 hover:border-white/10 transition-all duration-500 backdrop-blur-sm cursor-pointer"
+                                    data-play="chronicles-void" data-episode="s1e1">
+                                    <div
+                                        class="relative w-full md:w-64 lg:w-80 aspect-video shrink-0 rounded-xl overflow-hidden bg-black shadow-2xl group-hover:shadow-[0_0_30px_-5px_rgba(212,17,66,0.25)] transition-all duration-500 z-10">
+                                        <img class="object-cover w-full h-full transform transition-transform duration-700 ease-out group-hover:scale-110"
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6kN_eYof3ItgORgdw9Xx_cNBXCar3h_AFr74_DWFYp4FKGdRzxJeByprHKN5okOlMH-l9xN6fOBwXmMEmkr9VsXQRzIMewQ1r2k3oXwRKuyzKdWekhLcezHOzPNiXIC2L3fHWc3lsb1BHF4bjRtxzdv6DFsT4qxiAG0ok57qMxhEPS7AxsMfyPpow_WhfWU8yLSd77znQFX7MlYev0FCyWUSq1ayO20p4CSk8jLbmN_Peb_pebDM215E8A7h7y5s-FZUVthC_jeI"
+                                            alt="Episode thumbnail" />
+                                        <div
+                                            class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500">
+                                        </div>
+                                        <div
+                                            class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 backdrop-blur-[2px]">
+                                            <span
+                                                class="material-symbols-outlined text-white text-5xl md:text-6xl drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] scale-75 group-hover:scale-100 transition-transform duration-300">play_circle</span>
+                                        </div>
+                                        <div
+                                            class="absolute bottom-3 right-3 px-2 py-0.5 bg-black/80 rounded-md text-[11px] font-bold text-white/90 tracking-wide backdrop-blur-md border border-white/5">
+                                            48m</div>
+                                        <div class="absolute bottom-0 left-0 w-full h-1 bg-white/5">
+                                            <div
+                                                class="h-full bg-primary w-[85%] shadow-[0_0_15px_rgba(212,17,66,0.9)]">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col justify-center gap-2 md:gap-3 flex-1 py-1">
+                                        <h3
+                                            class="text-white text-lg md:text-xl font-bold group-hover:text-primary transition-colors duration-300 leading-tight">
+                                            1. The Awakening</h3>
+                                        <p
+                                            class="text-gray-400 text-sm md:text-base line-clamp-2 md:line-clamp-3 leading-relaxed font-normal group-hover:text-gray-300 transition-colors">
+                                            The detective wakes up in a strange facility with no memory. As he explores,
+                                            he realizes he's not on his home planet anymore.</p>
+                                    </div>
+                                    <div
+                                        class="hidden md:flex md:flex-col justify-center items-center pl-2 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <button
+                                            class="p-3 rounded-full hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined">download</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Episode 2 -->
+                                <div class="group flex flex-col md:flex-row gap-4 md:gap-6 p-4 md:p-5 rounded-2xl bg-white/[0.01] hover:bg-white/[0.03] border border-white/5 hover:border-white/10 transition-all duration-500 backdrop-blur-sm cursor-pointer"
+                                    data-play="chronicles-void" data-episode="s1e2">
+                                    <div
+                                        class="relative w-full md:w-64 lg:w-80 aspect-video shrink-0 rounded-xl overflow-hidden bg-black shadow-2xl transition-all duration-500 z-10">
+                                        <img class="object-cover w-full h-full transform transition-transform duration-700 ease-out group-hover:scale-110"
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUjI4awWr1xvhCxi_qfrz0JTtzCbGAv3JKKcIi8sLJX8AiAFsuKroQcOpPcU7FU5GEgHfTv3Rm9IoLnvfL1TJZwX3l38colY2cx7JpbmXL82eIugFR0PEqtLdD2ohFZLa_He8h438gWSf9p2IERvzxiu1JMvmKt_VKsQtcnX3CfFPRE09vveU2LbB-EQ0QB-6hOvM_ueRgtDHi4N7YzdE6Gxr2QVYvAnv-cINX--XpQRbqkvAdnKbhC7DXmvGymXW6C2zFOmD60uw"
+                                            alt="Episode thumbnail" />
+                                        <div
+                                            class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500">
+                                        </div>
+                                        <div
+                                            class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 backdrop-blur-[2px]">
+                                            <span
+                                                class="material-symbols-outlined text-white text-5xl md:text-6xl drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]">play_circle</span>
+                                        </div>
+                                        <div
+                                            class="absolute bottom-3 right-3 px-2 py-0.5 bg-black/80 rounded-md text-[11px] font-bold text-white/90 tracking-wide backdrop-blur-md border border-white/5">
+                                            52m</div>
+                                        <div class="absolute bottom-0 left-0 w-full h-1 bg-white/5">
+                                            <div
+                                                class="h-full bg-primary w-[30%] shadow-[0_0_15px_rgba(212,17,66,0.9)]">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col justify-center gap-2 md:gap-3 flex-1 py-1">
+                                        <h3
+                                            class="text-white text-lg md:text-xl font-bold group-hover:text-primary transition-colors duration-300 leading-tight">
+                                            2. Signals from the Deep</h3>
+                                        <p
+                                            class="text-gray-400 text-sm md:text-base line-clamp-2 md:line-clamp-3 leading-relaxed font-normal group-hover:text-gray-300 transition-colors">
+                                            A mysterious transmission is intercepted by the colony's radar. Is it a
+                                            distress call or a warning?</p>
+                                    </div>
+                                    <div
+                                        class="hidden md:flex md:flex-col justify-center items-center pl-2 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <button
+                                            class="p-3 rounded-full hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined">download</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Episode 3 -->
+                                <div class="group flex flex-col md:flex-row gap-4 md:gap-6 p-4 md:p-5 rounded-2xl bg-white/[0.01] hover:bg-white/[0.03] border border-white/5 hover:border-white/10 transition-all duration-500 backdrop-blur-sm cursor-pointer"
+                                    data-play="chronicles-void" data-episode="s1e3">
+                                    <div
+                                        class="relative w-full md:w-64 lg:w-80 aspect-video shrink-0 rounded-xl overflow-hidden bg-black shadow-2xl transition-all duration-500 z-10">
+                                        <img class="object-cover w-full h-full transform transition-transform duration-700 ease-out group-hover:scale-110"
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJChPFfvzxFTZInu_gq1jvz3N9anCBZiuSyzqDP7izriQHoRB9Jf1PJiykJmH-zRECinjzctCUPx7hKbxEzc_wjxV-IBSNmR0pRLoVhbZovQqM_-Crwpzf36zXKRXdBNgh7oyZhrgyj4ZVIFRgIucB1I7za1GP00MyGSs0gWO1x85AhGv1LZc_hF7RM3-weakdQlxky6kFSSS21zFHqt37eHDXYxpK8lQCDlzSFzThqsrxNYp0WFZR1BvFKZkq-quxvENrN5asDQQ"
+                                            alt="Episode thumbnail" />
+                                        <div
+                                            class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500">
+                                        </div>
+                                        <div
+                                            class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 backdrop-blur-[2px]">
+                                            <span
+                                                class="material-symbols-outlined text-white text-5xl md:text-6xl drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]">play_circle</span>
+                                        </div>
+                                        <div
+                                            class="absolute bottom-3 right-3 px-2 py-0.5 bg-black/80 rounded-md text-[11px] font-bold text-white/90 tracking-wide backdrop-blur-md border border-white/5">
+                                            45m</div>
+                                    </div>
+                                    <div class="flex flex-col justify-center gap-2 md:gap-3 flex-1 py-1">
+                                        <h3
+                                            class="text-white text-lg md:text-xl font-bold group-hover:text-primary transition-colors duration-300 leading-tight">
+                                            3. Rogue AI</h3>
+                                        <p
+                                            class="text-gray-400 text-sm md:text-base line-clamp-2 md:line-clamp-3 leading-relaxed font-normal group-hover:text-gray-300 transition-colors">
+                                            The central computer system begins to exhibit strange behavior, locking down
+                                            sectors of the city.</p>
+                                    </div>
+                                    <div
+                                        class="hidden md:flex md:flex-col justify-center items-center pl-2 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <button
+                                            class="p-3 rounded-full hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined">download</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar -->
+                        <div class="w-full lg:w-80 shrink-0 flex flex-col gap-8 lg:gap-10 pt-2">
+                            <!-- Cast -->
+                            <div>
+                                <h3 class="text-gray-500 font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs">Cast
+                                    & Crew</h3>
+                                <div
+                                    class="flex flex-row lg:flex-col gap-4 md:gap-5 overflow-x-auto lg:overflow-visible no-scrollbar">
+                                    <div class="flex items-center gap-4 group cursor-pointer shrink-0">
+                                        <div class="size-10 md:size-12 rounded-full bg-gray-800 bg-cover bg-center ring-1 ring-white/10 group-hover:ring-primary transition-all duration-300"
+                                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAv2xIil9uwYL4S34NcnT4qWGrBQwp-HlfbjIz5k8yjTcR_bGlT3bIYxnqroia3AAL3HMHxFpPiuZgz289qPyfa6WQUELzYsl5bs922jFGyc3Cgid_sRkZj3OJG6wDpsKFFH0CIQge7APFxzNYn84zD6HfEzX96AaX39xKQDikrg667uYVUm9oeuFzKi70uHQAIatV1OYX2er9Dko7LchqTH8iPels3OxKlz7tQvz9iKsxJT_6RpKQQ674CsQMj1crvyzVewk2Vydw')">
+                                        </div>
+                                        <div>
+                                            <div
+                                                class="text-white text-sm md:text-base font-semibold group-hover:text-primary transition-colors">
+                                                John Doe</div>
+                                            <div class="text-gray-500 text-xs md:text-sm">Detective K</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-4 group cursor-pointer shrink-0">
+                                        <div class="size-10 md:size-12 rounded-full bg-gray-800 bg-cover bg-center ring-1 ring-white/10 group-hover:ring-primary transition-all duration-300"
+                                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDoalXIhkXlG3TZVZpyRZgh-Ubrq7UY9OnZfoO47IH2BBEn-WxRlTpHFfCgK0yIOysig6CRqV1sRgafR7ZOba_TXtDVQkRQmYn2NvKYgbB3ucATS-RWKNcyfvhgk6gyr810swba8tYax8eVKEtDYNGCKfexQpahk3oubKwLW15LIpzsV8NnFghEc76tucjvSIu7C5_vimKA26D-GVULoy0x7u8tuEhD3_i1MuR6SxzGxN6E1X2jksq_t3aG3zQPbg73wgulHr5ZMUM')">
+                                        </div>
+                                        <div>
+                                            <div
+                                                class="text-white text-sm md:text-base font-semibold group-hover:text-primary transition-colors">
+                                                Jane Smith</div>
+                                            <div class="text-gray-500 text-xs md:text-sm">Commander Vex</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="w-full h-px bg-white/5"></div>
+
+                            <!-- About -->
+                            <div>
+                                <h3 class="text-gray-500 font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs">About
+                                </h3>
+                                <div class="flex flex-col gap-4 md:gap-6 text-sm">
+                                    <div>
+                                        <span class="text-gray-500 block text-xs mb-1">Director</span>
+                                        <span class="text-white text-base">Christopher Nolan</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-500 block text-xs mb-1">Genres</span>
+                                        <span class="text-white text-base">Sci-Fi, Thriller, Mystery</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-500 block text-xs mb-2">Maturity Rating</span>
+                                        <div class="flex items-center gap-3">
+                                            <span
+                                                class="border border-white/20 px-2 py-0.5 text-xs font-bold rounded text-white bg-white/5">TV-MA</span>
+                                            <span class="text-white/60 text-xs">Violence, Language</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/bridge.js"></script>
+</body>
+
+</html>

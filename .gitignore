@@ -1,0 +1,49 @@
+# Flutter SDK (should be installed separately, not committed)
+flutter/
+flutter.tar.xz
+
+# Flutter/Dart build artifacts
+**/build/
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.pub-cache/
+**/.pub/
+
+# Platform ephemeral (Flutter engine binaries ~82MB)
+**/linux/flutter/ephemeral/
+**/windows/flutter/ephemeral/
+**/macos/Flutter/ephemeral/
+
+# IDE
+**/.idea/
+**/.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS
+.DS_Store
+*.swp
+Thumbs.db
+
+# Miscellaneous
+*.class
+*.log
+*.pyc
+**/.history
+**/.svn/
+**/migrate_working_dir/
+
+# Symbolication / Obfuscation
+app.*.symbols
+app.*.map.json
+
+# Android
+**/android/app/debug
+**/android/app/profile
+**/android/app/release
+
+# Test scripts
+test_streaming.dart
+debug_api.sh

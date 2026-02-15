@@ -1,0 +1,154 @@
+/* StreamFlow Base CSS - Optimized for OLED and Performance */
+
+:root {
+    --primary: #d41142;
+    --bg-black: #000000;
+    --surface-dark: #121212;
+    --surface-glass: rgba(18, 18, 18, 0.6);
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --text-tertiary: #707070;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    font-family: "Spline Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-black);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+/* Optimized Scrollbar for OLED */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* Hide scrollbar but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* GPU Acceleration Helpers */
+.gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+/* Glass Morphism */
+.glass-panel {
+    background: rgba(20, 20, 20, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Ambient Shadows - Pre-computed for performance */
+.shadow-ambient-orange { box-shadow: 0 40px 100px -10px rgba(255, 100, 30, 0.5); }
+.shadow-ambient-blue { box-shadow: 0 40px 100px -10px rgba(40, 90, 255, 0.5); }
+.shadow-ambient-purple { box-shadow: 0 40px 100px -10px rgba(160, 40, 255, 0.5); }
+.shadow-ambient-teal { box-shadow: 0 40px 100px -10px rgba(40, 255, 180, 0.5); }
+.shadow-ambient-red { box-shadow: 0 40px 100px -10px rgba(255, 40, 40, 0.5); }
+.shadow-ambient-indigo { box-shadow: 0 40px 100px -10px rgba(90, 40, 255, 0.5); }
+.shadow-ambient-cyan { box-shadow: 0 40px 100px -10px rgba(40, 210, 255, 0.5); }
+.shadow-ambient-rose { box-shadow: 0 40px 100px -10px rgba(255, 40, 140, 0.5); }
+
+/* Hover variants */
+.shadow-ambient-orange-hover { box-shadow: 0 50px 120px -5px rgba(255, 120, 50, 0.8); }
+.shadow-ambient-blue-hover { box-shadow: 0 50px 120px -5px rgba(50, 100, 255, 0.8); }
+.shadow-ambient-indigo-hover { box-shadow: 0 50px 120px -5px rgba(80, 50, 255, 0.8); }
+.shadow-ambient-cyan-hover { box-shadow: 0 50px 120px -5px rgba(50, 200, 255, 0.8); }
+.shadow-ambient-rose-hover { box-shadow: 0 50px 120px -5px rgba(255, 50, 150, 0.8); }
+.shadow-ambient-teal-hover { box-shadow: 0 50px 120px -5px rgba(50, 255, 200, 0.8); }
+
+/* Ken Burns Animation */
+@keyframes ken-burns {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
+}
+
+.animate-ken-burns {
+    animation: ken-burns 20s ease-out infinite alternate;
+}
+
+/* Pulse Glow for CTA */
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 25px -5px rgba(212, 17, 66, 0.4); }
+    50% { box-shadow: 0 0 50px 10px rgba(212, 17, 66, 0.7); }
+}
+
+.animate-pulse-glow {
+    animation: pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Gradient Masks */
+.hero-gradient {
+    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 60%, #000000 100%);
+}
+
+.gradient-mask-b {
+    mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+}
+
+/* Progress Bar Comet Effect */
+.progress-comet {
+    box-shadow: 0 0 8px 1px rgba(212, 17, 66, 0.8), -15px 0 25px 0px rgba(212, 17, 66, 0.4);
+}
+
+/* Selection Style */
+::selection {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* Focus States for Accessibility */
+:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Platform-specific optimizations are handled via JS bridge */
