@@ -7,6 +7,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 /// 
 /// Used as a fallback when direct M3U8 streaming is not available.
 /// Loads embed URLs (like embtaku.pro) in a fullscreen WebView.
+/// Only works on Android/iOS — desktop platforms don't support WebView.
 class EmbedPlayer extends StatefulWidget {
   final String embedUrl;
   final String? title;
@@ -30,28 +31,32 @@ class _EmbedPlayerState extends State<EmbedPlayer> {
   bool _isLoading = true;
   bool _showControls = true;
 
+  bool get _isMobile => Platform.isAndroid || Platform.isIOS;
+
   @override
   void initState() {
     super.initState();
-    _initWebView();
-    // Lock to landscape
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-    // Hide system UI
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    if (_isMobile) {
+      _initWebView();
+      // Lock to landscape (mobile only)
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    }
   }
 
   @override
   void dispose() {
-    // Restore orientation
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    if (_isMobile) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    }
     super.dispose();
   }
 
@@ -60,9 +65,6 @@ class _EmbedPlayerState extends State<EmbedPlayer> {
 
     await controller.setJavaScriptMode(JavaScriptMode.unrestricted);
     await controller.setBackgroundColor(Colors.black);
-    
-    // Note: setMediaPlaybackRequiresUserGesture is only available on Android/iOS
-    // For Linux, media playback works without this setting
 
     await controller.setNavigationDelegate(
       NavigationDelegate(
@@ -72,7 +74,6 @@ class _EmbedPlayerState extends State<EmbedPlayer> {
         onPageFinished: (_) {
           if (mounted) {
             setState(() => _isLoading = false);
-            // Auto-hide controls after page loads
             Future.delayed(const Duration(seconds: 2), () {
               if (mounted) setState(() => _showControls = false);
             });
@@ -84,7 +85,6 @@ class _EmbedPlayerState extends State<EmbedPlayer> {
       ),
     );
 
-    // Load the embed URL
     final uri = Uri.parse(widget.embedUrl);
     await controller.loadRequest(
       uri,
@@ -102,17 +102,44 @@ class _EmbedPlayerState extends State<EmbedPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    // Desktop: WebView not supported
+    if (!_isMobile) {
+      return Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.web_asset_off, color: Colors.white54, size: 64),
+              const SizedBox(height: 16),
+              const Text(
+                'Embed playback is not supported on desktop.',
+                style: TextStyle(color: Colors.white70, fontSize: 16),
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton.icon(
+                onPressed: widget.onBack ?? () => Navigator.pop(context),
+                icon: const Icon(Icons.arrow_back),
+                label: const Text('Go Back'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFD41142),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: GestureDetector(
         onTap: _toggleControls,
         child: Stack(
           children: [
-            // WebView
             if (_controller != null)
               WebViewWidget(controller: _controller!),
             
-            // Loading overlay
             if (_isLoading)
               Container(
                 color: Colors.black,
@@ -136,7 +163,6 @@ class _EmbedPlayerState extends State<EmbedPlayer> {
                 ),
               ),
             
-            // Top bar with back button
             if (_showControls)
               Positioned(
                 top: 0,
@@ -174,7 +200,6 @@ class _EmbedPlayerState extends State<EmbedPlayer> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        // Fullscreen indicator badge
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
