@@ -17,7 +17,7 @@ class PlaybackSpeedModal extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20),
-      color: Colors.black.withOpacity(0.9),
+      color: Colors.black.withValues(alpha: 0.9),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

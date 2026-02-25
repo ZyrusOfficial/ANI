@@ -215,7 +215,7 @@ class _HomePageState extends ConsumerState<HomePage> with SingleTickerProviderSt
                       genres: anime.genres.take(2).toList(),
                       imageUrl: (anime.image.isNotEmpty) ? anime.image : '',
                       shadowColor: colors[colorIdx],
-                      hoverShadowColor: colors[colorIdx].withOpacity(0.8),
+                      hoverShadowColor: colors[colorIdx].withValues(alpha: 0.8),
                       badges: [
                         if (anime.rating != null) '${anime.rating} ★',
                         anime.type ?? 'TV'

@@ -181,9 +181,7 @@ class _PlayerPageState extends ConsumerState<PlayerPage> with SingleTickerProvid
             setState(() => _isLoading = false);
             _startProgressSaver();
           } else {
-            if (Theme.of(context).platform == TargetPlatform.linux || 
-                Theme.of(context).platform == TargetPlatform.windows ||
-                Theme.of(context).platform == TargetPlatform.macOS) {
+            if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
                print('[Player] Embeds not supported on Desktop: $_streamUrl');
                if (mounted) {
                  ScaffoldMessenger.of(context).showSnackBar(
@@ -344,12 +342,27 @@ class _PlayerPageState extends ConsumerState<PlayerPage> with SingleTickerProvid
     );
   }
 
-  void _toggleFullscreen() {
+  void _toggleFullscreen() async {
     setState(() => _isFullscreen = !_isFullscreen);
-    if (_isFullscreen) {
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+    if (Platform.isLinux) {
+      // Linux: use wmctrl for real window fullscreen
+      try {
+        await Process.run('wmctrl', ['-r', ':ACTIVE:', '-b', 'toggle,fullscreen']);
+      } catch (e) {
+        try {
+          await Process.run('xdotool', ['key', 'F11']);
+        } catch (_) {
+          print('[Player] No wmctrl or xdotool available');
+        }
+      }
     } else {
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      // Android/iOS/Windows/macOS: toggle system UI
+      if (_isFullscreen) {
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+      } else {
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      }
     }
   }
 
@@ -814,10 +827,10 @@ class _PlayerPageState extends ConsumerState<PlayerPage> with SingleTickerProvid
               // const SizedBox(width: 8),
               _buildControlButton(Icons.speed, _showPlaybackSpeed),
               const SizedBox(width: 8),
-              _buildControlButton(Icons.fullscreen, () {
-                 // Simple toggle for now
-                 SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-              }),
+              _buildControlButton(
+                _isFullscreen ? Icons.fullscreen_exit : Icons.fullscreen,
+                _toggleFullscreen,
+              ),
             ],
           ),
         ],

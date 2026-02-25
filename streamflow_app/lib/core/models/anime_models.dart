@@ -195,19 +195,24 @@ class StreamingInfo {
     );
   }
 
-  /// Get best quality source
+  /// Get best quality source (prioritize highest resolution)
   StreamingSource? get bestQuality {
     if (sources.isEmpty) return null;
     
     final priorities = ['1080p', '720p', '480p', '360p', 'default', 'auto'];
     for (final quality in priorities) {
-      final source = sources.firstWhere(
-        (s) => s.quality.toLowerCase().contains(quality),
-        orElse: () => sources.first,
-      );
-      if (source.url.isNotEmpty) return source;
+      try {
+        final source = sources.firstWhere(
+          (s) => s.quality.toLowerCase().contains(quality) && s.url.isNotEmpty,
+        );
+        return source;
+      } catch (_) {
+        // No match for this quality — try next
+        continue;
+      }
     }
-    return sources.first;
+    // No quality label matched — return first source with a valid URL
+    return sources.firstWhere((s) => s.url.isNotEmpty, orElse: () => sources.first);
   }
 }
 

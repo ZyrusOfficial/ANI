@@ -67,10 +67,19 @@ class _SeriesDetailsPageState extends ConsumerState<SeriesDetailsPage> {
 
     try {
       final api = ref.read(jikanApiProvider);
-      final anime = await api.getAnimeInfo(widget.seriesId!);
-      final episodes = await api.getEpisodes(widget.seriesId!);
-      final characters = await api.getCharacters(widget.seriesId!);
-      final recommendations = await api.getRecommendations(widget.seriesId!);
+      
+      // Parallelize all API calls for faster page load
+      final results = await Future.wait([
+        api.getAnimeInfo(widget.seriesId!),
+        api.getEpisodes(widget.seriesId!),
+        api.getCharacters(widget.seriesId!),
+        api.getRecommendations(widget.seriesId!),
+      ]);
+      
+      final anime = results[0] as Anime?;
+      final episodes = results[1] as List<Episode>;
+      final characters = results[2] as List<Map<String, dynamic>>;
+      final recommendations = results[3] as List<Anime>;
       
       if (mounted) {
         setState(() {
@@ -81,7 +90,7 @@ class _SeriesDetailsPageState extends ConsumerState<SeriesDetailsPage> {
                Episode(
                  id: '1',
                  number: 1,
-                 title: 'Movie',
+                 title: anime?.type ?? 'Movie',
                  description: anime?.description,
                  thumbnail: anime?.cover,
                )
